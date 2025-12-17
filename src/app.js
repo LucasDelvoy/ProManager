@@ -4,11 +4,11 @@ const app = express();
 //init cors
 const cors = require('cors')
 app.use(cors())
+app.use(express.json())
 
+const auth = require('./routes/auth');
 //créer la route
-app.get('/api/health', (req, res) => {
-    res.status(200).json({ status: "ok" })
-})
+app.use('/api/auth', auth);
 
 //exporter vers server.js
 module.exports = app
