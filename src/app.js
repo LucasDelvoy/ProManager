@@ -7,6 +7,7 @@ app.use(cors())
 app.use(express.json())
 
 const auth = require('./routes/auth');
+
 //créer la route
 app.use('/api/auth', auth);
 
