@@ -76,7 +76,7 @@ router.post('/login', async (req, res) => {
 
 });
 
-router.get('/profile', protect, (req, res, next) => {
+router.get('/api/user/me', protect, (req, res, next) => {
     return res.json(req.user)
 })
 

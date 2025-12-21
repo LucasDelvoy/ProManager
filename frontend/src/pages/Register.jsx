@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
+
 function Register () {
 
     //Prepare 2 states
@@ -22,6 +23,7 @@ function Register () {
 
         if (loginForm.ok) {
             const data = await loginForm.json()
+            localStorage.setItem('token', data.token)
             navigate('/Dashboard')
         }
     }

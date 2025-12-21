@@ -6,6 +6,7 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json())
 
+const authMiddleware = require('./middleware/authMiddleware')
 const auth = require('./routes/auth');
 
 app.get('/api/health', (req, res) => {
@@ -14,6 +15,9 @@ app.get('/api/health', (req, res) => {
 
 //créer la route
 app.use('/api/auth', auth);
+app.get('/api/user/me', authMiddleware, (req, res) => {
+    res.json({ message: "Bonjour" });
+});
 
 //exporter vers server.js
 module.exports = app

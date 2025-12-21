@@ -21,6 +21,7 @@ function Login () {
         })
         if (loginForm.ok) {
             const data = await loginForm.json()
+            localStorage.setItem('token', data.token)
             navigate('/Dashboard')
         }
     }
