@@ -4,9 +4,11 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import Clients from './pages/Clients'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
+
 
 function App() {
   
@@ -16,7 +18,8 @@ function App() {
     
       <BrowserRouter>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/Clients" element={<Clients/>} />
+          <Route path="/Dashboard" element={<Dashboard/>} />
           <Route path="/Login" element={<Login/>} />
           <Route path="/Register" element={<Register />} />
         </Routes>
