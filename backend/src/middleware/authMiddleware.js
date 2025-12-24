@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const protect = async (req, res, next) => {
 
     console.log("--- DEBUG MIDDLEWARE ---")
+    console.log("Headers reçus :", req.headers);
     
     //récuperer le badge
     const header = req.headers.authorization;

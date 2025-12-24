@@ -7,8 +7,9 @@ app.use(cors())
 app.use(express.json())
 
 const authMiddleware = require('./middleware/authMiddleware')
-const auth = require('./routes/auth');
+const auth = require('./routes/auth')
 const clients = require ('./routes/clients')
+const projects = require('./routes/projects')
 
 app.get('/api/health', (req, res) => {
     res.json({ message: "Le serveur répond !" });
@@ -20,6 +21,7 @@ app.get('/api/user/me', authMiddleware, (req, res) => {
     res.json({ message: "Bonjour" });
 });
 app.use('/api/user/me/clients', clients)
+app.use('/api/user/me/projects', projects)
 
 //exporter vers server.js
 module.exports = app
