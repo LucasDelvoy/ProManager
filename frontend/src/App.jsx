@@ -8,6 +8,7 @@ import Clients from './pages/Clients'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Projects from './pages/Projects'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/Dashboard" element={<Dashboard/>} />
           <Route path="/Login" element={<Login/>} />
           <Route path="/Register" element={<Register />} />
+          <Route path="/Projects" element={<Projects />} />
         </Routes>
       </BrowserRouter>
     

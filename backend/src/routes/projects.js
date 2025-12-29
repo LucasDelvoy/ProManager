@@ -54,7 +54,7 @@ router.get('/', protect, async (req, res) => {
     //give client name
     const { clientName } = req.query
     if (!clientName) {
-        return res.status(401).json({message: 'Please give a correct client name'})
+        return res.status(400).json({message: 'Please give a correct client name'})
     }
     const client = await prisma.client.findFirst({
         where: {
