@@ -1,18 +1,27 @@
 # ProManager
 
-Application web full-stack (Node.js / Express / PostgreSQL / React)
+Application web full-stack permettant à un utilisateur authentifié
+de gérer ses clients et leurs projets.
 
-## Fonctionnalités
-- Authentification JWT
-- Backend sécurisé
-- Frontend React
-- Communication API REST
+## 🚀 Stack technique
+- Frontend : React, Vite
+- Backend : Node.js, Express
+- Base de données : PostgreSQL
+- ORM : Prisma
+- Authentification : JWT
 
-## Lancer le projet
-Backend :
+## ✨ Fonctionnalités
+- Inscription et connexion utilisateur
+- Authentification sécurisée par JWT
+- Création et affichage de clients
+- Création et affichage de projets liés à un client
+- Données isolées par utilisateur
+
+## 🛠️ Installation
+
+### Backend
+```bash
+cd backend
 npm install
-npm run dev
-
-Frontend :
-npm install
+# créer un fichier .env
 npm run dev

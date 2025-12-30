@@ -10,6 +10,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Projects from './pages/Projects'
 
+import Navbar from './components/Navbar'
+
 
 function App() {
   
@@ -18,6 +20,7 @@ function App() {
     <>
     
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/Clients" element={<Clients/>} />
           <Route path="/Dashboard" element={<Dashboard/>} />
