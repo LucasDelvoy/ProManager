@@ -18,17 +18,22 @@ router.post('/createProject', protect, async (req, res) => {
     //Name project
     const {clientName, projectName} = req.body
     if (!clientName || !projectName) {
-        return res.status(401).json({message: 'Please fill in all fields'})
+        return res.status(400).json({message: 'Please fill in all fields'})
     }
 
     //Link to user and client
     const client = await prisma.client.findFirst({
-        where: {name: clientName}
+        where: {
+            name: clientName, 
+            users: {
+                some: {id: userId}
+            }
+        }
     })
     if (!client) {
-        return res.status(401).json({message: 'Please give a correct client name'})
+        return res.status(400).json({message: 'Please give a correct client name'})
     }
-    console.log('Client Id: ' + client.id)
+
     //Create Project
     const newProject = await prisma.project.create({
         data: {

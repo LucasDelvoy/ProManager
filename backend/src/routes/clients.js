@@ -20,7 +20,7 @@ router.post('/createClient', protect, async (req, res,) => {
     //get user id
     const userId = req.user.userId
     if (!userId) {
-        return res.status(400).json({message: 'Please log in.'})
+        return res.status(401).json({message: 'Please log in.'})
     }
 
     //create client in database
@@ -51,8 +51,6 @@ router.get('/', protect, async (req, res) => {
     if (!userId) {
         return res.status(401).json({message: 'Please Log in.'})
     }
-    console.log("ID utilisateur récupéré :", userId);
-    console.log("Type de l'ID :", typeof userId);
 
     //Chercher la liste
     const clients = await prisma.client.findMany({
