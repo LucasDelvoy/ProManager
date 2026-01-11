@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import AddClient from '../components/AddClientModal';
+
 function Client () {
 
     //check if user is connected else go to login page
@@ -32,7 +34,6 @@ function Client () {
     
     //show client list
     const [clients, setClients] = useState([])
-    const [newClient, setNewClient] = useState('')
 
     async function fetchClients () {
 
@@ -46,47 +47,41 @@ function Client () {
         setClients(data)
     }
 
-    
-    //create new client form
-    async function handleSubmit(e) {
-        e.preventDefault();
-        const clientForm = await fetch('http://localhost:5000/api/user/me/clients/createClient', {
-            method: 'POST',
-            headers: {
-                'authorization': 'Bearer ' + token,
-                'content-type': "application/json"
-            },
-            body: JSON.stringify({name: newClient})
-        })
-
-        if (clientForm.ok) {
-            const data = await clientForm.json()
-            setNewClient('')
-            fetchClients()
-        }
-    }
-
     return (
         <>
         
-            <form onSubmit={handleSubmit}>
-                <input type='text' value={newClient} onChange={(e) => setNewClient(e.target.value)} placeholder='New Client name' />
-                <button type='submit'>Add New Client</button>
-            </form>
+            <div className='flex flex-col items-center justify-center gap-4 px-4 min-h-[60vh]'>
+                <div className='text-center mb-2'>
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Clients</h1>
+                    <p>Keep track of your clients here</p>
+                </div>
+                <div className='flex items-stretch justify-center gap-4'>
+                    <div className='p-4 bg-white shadow-x1 rounded-md bg-gray-100 border border-gray-300'>
+                        <h4 className='self-center p-2 font-bold'>Add a client</h4>
+                        <AddClient onSuccess={fetchClients} />
+                    </div>
+                    
+                    <div className='p-4 bg-white shadow-x1 rounded-md bg-gray-100 border border-gray-300'>
 
-            <div className='client-list'>
+                        {clients.length > 0 ? (
+                            <div>
+                                <h4 className='self-center p-2 font-bold'>Client List</h4>
+                                <ul>
+                                    {clients?.map(client => (
+                                        <li className='text-sm' key={client.id}>{client.name}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                            
+                        ) : (
+                            <p>You don't have any client</p>
+                        )}
 
-                {clients.length > 0 ? (
-                    <ul>
-                        {clients?.map(client => (
-                            <li key={client.id}>{client.name}</li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>You don't have any client</p>
-                )}
-
+                    </div>
+                </div>
+                
             </div>
+            
 
         </>
     )

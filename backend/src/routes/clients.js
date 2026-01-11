@@ -62,4 +62,26 @@ router.get('/', protect, async (req, res) => {
 
 })
 
+router.get('/last', protect, async (req, res) => {
+
+    //garde
+    const userId = req.user.userId
+
+    if (!userId) {
+        return res.status(401).json({message: 'Please Log in.'})
+    }
+
+    //chercher dans la liste le dernier client
+    const lastClient = await prisma.client.findFirst({
+        where: {
+            users: { some: { id: userId }},
+        },
+        orderBy: {
+            createdAt: 'desc',
+        }
+    })
+
+    return res.json(lastClient)
+})
+
 module.exports = router

@@ -16,29 +16,28 @@ function Navbar () {
 
     return (
         <>
-        
-            <nav>
 
-                <div className="Logo">
-                    <strong>ProManager</strong>
-                </div>
-                <ul>
-                    <li>
-                        <Link to='/Dashboard'>Dashboard</Link>
-                    </li>
-                    <li>
-                        <Link to='/Clients'>Clients</Link>
-                    </li>
-                    <li>
-                        <Link to='/Projects'>Projects</Link>
-                    </li>
-                    <li>
-                        <button onClick={handleLogout}>Logout</button>
-                    </li>
-                </ul>
-
-            </nav>
-
+            <div className="container mx-auto px-4 py-4">
+                <nav className="flex items-center justify-between">
+                    <div className="text-xl font-bold text-blue-600">
+                            ProManager
+                    </div>
+                    <ul className="flex items-center gap-10">
+                        <li>
+                            <Link to='/Dashboard' className="text-gray-600 hover:text-blue-500">Dashboard</Link>
+                        </li>
+                        <li>
+                            <Link to='/Clients' className="text-gray-600 hover:text-blue-500">Clients</Link>
+                        </li>
+                        <li>
+                            <Link to='/Projects' className="text-gray-600 hover:text-blue-500">Projects</Link>
+                        </li>
+                        <li>
+                            <button onClick={handleLogout} className="text-gray-600 hover:text-blue-500">Logout</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </>
     )
 

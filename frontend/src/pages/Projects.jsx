@@ -92,43 +92,55 @@ function Projects () {
 
     return (
         <>
-        
-            <div className='client-list'>
+            <div className='flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4'>
+                <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
 
-                {clients.length > 0 ? (
-                    <ul>
-                      {clients?.map(client => (
-                        <li key={client.id} onClick={() => fetchProjects(client.name, client.id)}>
-                            {client.name}
-                            
-                            {activeClientId === client.id && (
-                                <div onClick={(e) => e.stopPropagation()}>
+                    <div className='text-center mb-2 p-2'>
+                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Project</h1>
+                        <p>Keep track and add new projects here</p>
+                    </div>
 
-                                    <form onSubmit={(e) => handleSubmit(e, client.name, client.id)}>
-                                        <input type='text' value={newProject} onChange={(e) => setNewProject(e.target.value)} placeholder='New Project Name'></input>
-                                        <button type='submit'>Add New Project </button>
-                                    </form>
+                    <div className='p-4 bg-white shadow-x1 rounded-md bg-gray-100 border border-gray-300 p-2 shadow-xl'>
+                        {clients.length > 0 ? (
+                            <ul>
+                            {clients?.map(client => (
+                                <li className='list-none' key={client.id} onClick={() => fetchProjects(client.name, client.id)}>
+                                    <span className='font-semibold hover:text-blue-500' onClick={() => fetchProjects(client.name, client.id)}>
+                                        {client.name}
+                                    </span>
+                                    
+                                    {activeClientId === client.id && (
+                                        <div onClick={(e) => e.stopPropagation()}>
 
-                                    {projects.length > 0 ? (
-                                        <ul>
-                                            {projects.map(project => (
-                                                <li key={project.id}>{project.name}</li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p>You don't have any project with this client</p>
+                                            {projects.length > 0 ? (
+                                                <ul>
+                                                    {projects.map(project => (
+                                                        <li className='text-sm font-medium ms-5' key={project.id}>{project.name}</li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <p className='text-sm'>You don't have any project with this client</p>
+                                            )}
+
+                                            <form onSubmit={(e) => handleSubmit(e, client.name, client.id)} className='flex flex-col gap-2 max-w-40 mx-auto'>
+                                                <input type='text' value={newProject} onChange={(e) => setNewProject(e.target.value)} placeholder='New Project Name'className='border-1 rounded-md p-1 w-35 text-xs font-medium self-center' />
+                                                <button type='submit' className='bg-blue-500 text-gray-200 rounded-md p-1 w-35 text-xs self-center font-medium'>Add New Project </button>
+                                            </form>
+
+                                        </div>
                                     )}
+                                </li>
+                            ))}  
+                            </ul>
+                        ) : (
+                            <p>You don't have any client</p>
+                        )}
+                    </div>
+                    
 
-                                </div>
-                            )}
-                        </li>
-                      ))}  
-                    </ul>
-                ) : (
-                    <p>You don't have any client</p>
-                )}
-
+                </div>
             </div>
+            
         
         </>
     )

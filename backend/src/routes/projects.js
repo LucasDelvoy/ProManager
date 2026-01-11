@@ -85,5 +85,39 @@ router.get('/', protect, async (req, res) => {
     return res.json(projects)
 })
 
+router.post('/lastClientProject', protect, async (req, res) => {
+
+    const userId = req.user.userId
+    if (!userId) {
+        return res.status(401).json({message: 'Please Log In'})
+    }
+
+    const {projectName, clientName} = req.body
+
+    if (!clientName) {
+        return res.status(400).json({message: 'Client Name missing'})
+    }
+
+    const client = await prisma.client.findFirst({
+        where:{
+            name: clientName
+        }
+    })
+
+    const newProject = await prisma.project.create({
+        data:{
+            name: projectName,
+            client: {
+                connect: { id: client.id },
+            },
+            user: {
+                connect:{ id: userId }
+            }
+        }
+    })
+
+    return res.status(201).json({message: 'Project successfully created'})
+})
+
 
 module.exports = router

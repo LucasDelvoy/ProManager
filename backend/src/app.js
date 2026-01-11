@@ -18,7 +18,7 @@ app.get('/api/health', (req, res) => {
 //créer la route
 app.use('/api/auth', auth);
 app.get('/api/user/me', authMiddleware, (req, res) => {
-    res.json({ message: "Bonjour" });
+    res.json({ message: "Hello" });
 });
 app.use('/api/user/me/clients', clients)
 app.use('/api/user/me/projects', projects)
