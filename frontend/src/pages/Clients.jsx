@@ -47,6 +47,51 @@ function Client () {
         setClients(data)
     }
 
+    const [editClientId, setEditClientId] = useState(null)
+    const [editName, setEditName] = useState('')
+
+    const editMode = (client) => {
+
+        console.log(client.id)
+        console.log(client.name)
+        if (client && client.id) {
+            setEditClientId(client.id);
+            setEditName(client.name)
+
+            console.log(editClientId, editName)
+        } else {
+            console.log('ca marche pas')
+        }}
+
+    async function handleEdit(e) {
+
+        if (e.key === 'Escape') {
+            setEditClientId(null)
+            return;
+        }
+
+        if (e.key === 'Enter') {
+            console.log('id: ', editClientId)
+            const res = await fetch(`http://localhost:5000/api/user/me/clients/${editClientId}`, {
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json',
+                    'authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    name: editName
+                })
+            })
+
+            if(res.ok) {
+                const data = await res.json()
+                setEditClientId(null)
+                fetchClients()
+            }
+        }
+        
+    }
+
     return (
         <>
         
@@ -68,7 +113,14 @@ function Client () {
                                 <h4 className='self-center p-2 font-bold'>Client List</h4>
                                 <ul>
                                     {clients?.map(client => (
-                                        <li className='text-sm' key={client.id}>{client.name}</li>
+                                        <div key={client.id} onClick={() => handleEdit(client)}>
+                                            {editClientId === client.id ? (
+                                                <input value={editName} onChange={(e) => setEditName(e.target.value)} onKeyDown={(e) => handleEdit(e)} />
+                                            ) : (
+                                                <li className='text-sm hover:text-blue-500' onClick={() => editMode(client)}>{client.name}</li>
+                                            )}
+                                        </div>
+                                        
                                     ))}
                                 </ul>
                             </div>
