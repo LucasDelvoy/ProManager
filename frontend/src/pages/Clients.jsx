@@ -92,6 +92,25 @@ function Client () {
         
     }
 
+    async function handleDelete(e) {
+
+        if (!window.confirm('Are you sure you want to delete this client?')) return
+
+        const res = await fetch(`http://localhost:5000/api/user/me/clients/${editClientId}/delete`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': 'Bearer ' + token
+            }
+        })
+
+        if (res.ok) {
+            const data = await res.json()
+            setEditClientId(null)
+            fetchClients()
+        }
+    }
+
     return (
         <>
         
@@ -115,7 +134,10 @@ function Client () {
                                     {clients?.map(client => (
                                         <div key={client.id} onClick={() => handleEdit(client)}>
                                             {editClientId === client.id ? (
-                                                <input value={editName} onChange={(e) => setEditName(e.target.value)} onKeyDown={(e) => handleEdit(e)} />
+                                                <div>
+                                                    <input value={editName} onChange={(e) => setEditName(e.target.value)} onKeyDown={(e) => handleEdit(e)} />
+                                                    <button onClick={() => handleDelete(client)}>Delete Client</button>
+                                                </div>
                                             ) : (
                                                 <li className='text-sm hover:text-blue-500' onClick={() => editMode(client)}>{client.name}</li>
                                             )}

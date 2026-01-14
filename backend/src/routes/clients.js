@@ -122,4 +122,37 @@ router.patch('/:id', protect, async (req, res) => {
 
 })
 
+router.delete('/:id/delete', protect, async (req, res) => {
+
+    const userId = req.user.userId
+    if (!userId) {
+        return res.status(401).json({message: 'Please Log in.'})
+    }
+
+    const clientId = parseInt(req.params.id)
+    if(!clientId) {
+        return res.status(404).json({message: 'Please select a client.'})
+    }
+
+    const client = await prisma.client.findUnique({
+        where : {
+            id: clientId,
+            users: { some: { id: userId }}
+        }
+    })
+
+    if (client) {
+        const deletedClient = await prisma.client.delete({
+            where : {
+                id: clientId
+            }
+        })
+
+        return res.json(deletedClient)
+
+    } else {
+        return res.status(404).json({message: 'Client not found.'})
+    }
+})
+
 module.exports = router
