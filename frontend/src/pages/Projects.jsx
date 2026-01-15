@@ -90,6 +90,66 @@ function Projects () {
         }
     }
 
+    const [editProjectId, setEditProjectId] = useState(null)
+    const [editName, setEditName] = useState('')
+
+    const editMode = (project) => {
+
+        if (project && project.id) {
+            setEditProjectId(project.id)
+            setEditName(project.name)
+        }
+
+        console.log(editProjectId, editName)
+    }
+
+    async function handleEdit(e, clientName, clientId) {
+
+        if (e.key === 'Escape') {
+            setEditProjectId(null)
+            return
+        }
+
+        if (e.key === 'Enter') {
+            const res = await fetch(`http://localhost:5000/api/user/me/projects/${editProjectId}`, {
+                method: 'PATCH',
+                headers: {
+                    'authorization': 'Bearer ' + token,
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: editName
+                })
+            })
+
+            if (res.ok) {
+                const data = await res.json()
+                setEditProjectId(null)
+                fetchProjects(clientName, clientId)
+            }
+        }
+    }
+
+    async function handleDelete(e, clientName, clientId) {
+
+        console.log(editProjectId)
+        if (!window.confirm('Are you sure you want to delete this project?')) return
+
+        const res = await fetch(`http://localhost:5000/api/user/me/projects/${editProjectId}/delete`, {
+            method: 'DELETE',
+            headers: {
+                'authorization': 'Bearer ' + token,
+                'content-type': 'application/json'
+            }
+        })
+
+        if (res.ok) {
+            const data = await res.json()
+            setEditProjectId(null)
+            fetchProjects(clientName, clientId)
+        }
+    }
+
     return (
         <>
             <div className='flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4'>
@@ -115,7 +175,16 @@ function Projects () {
                                             {projects.length > 0 ? (
                                                 <ul>
                                                     {projects.map(project => (
-                                                        <li className='text-sm font-medium ms-5' key={project.id}>{project.name}</li>
+                                                        <div key={project.id} onClick={() => handleEdit(project)}>
+                                                            {editProjectId === project.id ? (
+                                                                <div>
+                                                                    <input value={editName} onChange={(e) => setEditName(e.target.value)} onKeyDown={(e) => handleEdit(e, client.name, client.id)} />
+                                                                    <button onClick={() => handleDelete(project, client.name, client.id)}> Delete Project </button>
+                                                                </div>
+                                                            ) : (
+                                                                <li className='text-sm hover:text-blue-500' onClick={() => editMode(project)}>{project.name}</li>
+                                                            )}
+                                                        </div>
                                                     ))}
                                                 </ul>
                                             ) : (

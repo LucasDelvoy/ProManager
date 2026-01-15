@@ -119,5 +119,72 @@ router.post('/lastClientProject', protect, async (req, res) => {
     return res.status(201).json({message: 'Project successfully created'})
 })
 
+router.patch('/:id', protect, async (req, res) => {
+
+    const userId = req.user.userId
+    if (!userId) {
+        return res.status(401).json({message: 'Please Log In'})
+    }
+
+    const projectId = parseInt(req.params.id)
+    if (!projectId) {
+        return res.status(404).json({message: 'Please select a project'})
+    }
+
+    const updatedProjectName = req.body.name
+
+    const project = await prisma.project.findUnique({
+        where: {
+            id: projectId,
+            userId: userId
+        }
+    })
+
+    if (project) {
+        const updatedProject = await prisma.project.update({
+            where: {
+                id: projectId,
+                userId: userId
+            },
+            data: { name: updatedProjectName }
+        })
+        return res.json(updatedProject)
+    } else {
+        return res.status(404).json({message: 'Project not found'})
+    }
+
+})
+
+router.delete('/:id/delete', protect, async (req, res) => {
+
+    const userId = req.user.userId
+    if (!userId) {
+        return res.status(401).json({message: 'Please Log In'})
+    }
+
+    const projectId = parseInt(req.params.id)
+    if (!projectId) {
+        return res.status(404).json({message: 'Please select a project'})
+    }
+
+    const project = await prisma.project.findUnique({
+        where: {
+            id: projectId,
+            userId: userId
+        }
+    })
+    if (project) {
+        const deletedProject = await prisma.project.delete({
+            where: {
+                id: projectId,
+            }
+        })
+
+        return res.json(deletedProject)
+    } else {
+        return res.status(404).json({message: 'Project not found.'})
+    }
+})
+
 
 module.exports = router
