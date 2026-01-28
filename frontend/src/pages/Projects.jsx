@@ -86,6 +86,7 @@ function Projects () {
         if (projectForm.ok) {
             const data = await projectForm.json()
             setNewProject('')
+            alert('New Project added!')
             fetchProjects(clientName, clientId)
         }
     }
@@ -100,7 +101,6 @@ function Projects () {
             setEditName(project.name)
         }
 
-        console.log(editProjectId, editName)
     }
 
     async function handleEdit(e, clientName, clientId) {
@@ -125,6 +125,7 @@ function Projects () {
             if (res.ok) {
                 const data = await res.json()
                 setEditProjectId(null)
+                alert('Project Successfully Deleted')
                 fetchProjects(clientName, clientId)
             }
         }
@@ -132,7 +133,6 @@ function Projects () {
 
     async function handleDelete(e, clientName, clientId) {
 
-        console.log(editProjectId)
         if (!window.confirm('Are you sure you want to delete this project?')) return
 
         const res = await fetch(`http://localhost:5000/api/user/me/projects/${editProjectId}/delete`, {

@@ -52,15 +52,9 @@ function Client () {
 
     const editMode = (client) => {
 
-        console.log(client.id)
-        console.log(client.name)
         if (client && client.id) {
             setEditClientId(client.id);
             setEditName(client.name)
-
-            console.log(editClientId, editName)
-        } else {
-            console.log('ca marche pas')
         }}
 
     async function handleEdit(e) {
@@ -71,7 +65,6 @@ function Client () {
         }
 
         if (e.key === 'Enter') {
-            console.log('id: ', editClientId)
             const res = await fetch(`http://localhost:5000/api/user/me/clients/${editClientId}`, {
                 method: 'PATCH',
                 headers: {
@@ -107,6 +100,7 @@ function Client () {
         if (res.ok) {
             const data = await res.json()
             setEditClientId(null)
+            alert("Client successfully deleted")
             fetchClients()
         }
     }
